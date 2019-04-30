@@ -2,14 +2,10 @@ import { InfluxLogin } from '../config';
 import * as fs from 'fs';
 import { FieldType, InfluxDB as Influx, IPoint, ISingleHostConfig, toNanoDate } from 'influx';
 import * as mqtt from 'mqtt';
-import {
-  df3parser,
-  df5parser,
-  RuuviTagBroadcast,
-} from 'ojousima.ruuvi_endpoints.ts';
+import { df3parser, df5parser, RuuviTagBroadcast } from 'ojousima.ruuvi_endpoints.ts';
 import * as os from 'os';
-import { GwStatusToInflux, GWStatOptions } from './gwdata'
-import { MacStatusToInflux, MacStatOptions } from './macdata'
+import { GwStatusToInflux, GWStatOptions } from './gwdata';
+import { MacStatusToInflux, MacStatOptions } from './macdata';
 
 // Setup database connection
 /*
@@ -105,7 +101,7 @@ const gwDB = new Influx({
   database: GWStatOptions.database,
   schema: GWStatOptions.schema,
   username: GWStatOptions.username,
-  password: GWStatOptions.password
+  password: GWStatOptions.password,
 });
 gwDB.getDatabaseNames().then(names => {
   const dbname: string = GWStatOptions.database ? GWStatOptions.database : 'misc';
@@ -119,7 +115,7 @@ const macDB = new Influx({
   database: MacStatOptions.database,
   schema: MacStatOptions.schema,
   username: MacStatOptions.username,
-  password: MacStatOptions.password
+  password: MacStatOptions.password,
 });
 macDB.getDatabaseNames().then(names => {
   const dbname: string = MacStatOptions.database ? MacStatOptions.database : 'misc';
@@ -134,74 +130,69 @@ macDB.getDatabaseNames().then(names => {
 const config = new InfluxLogin();
 const mqttClient = mqtt.connect('mqtt://' + config.mqttBroker);
 
-mqttClient.on('connect', function () {
-  console.log("MQTT connected");
-  mqttClient.subscribe('/+/status', function (err) {
+mqttClient.on('connect', function() {
+  console.log('MQTT connected');
+  mqttClient.subscribe('/+/status', function(err) {
     if (err) {
-      console.log("err");
+      console.log('err');
     }
   });
 });
- 
-const macTimestamps = new Map();
-mqttClient.on('message', function (topic, message) {
-  const obj = JSON.parse(message.toString());
-  if(Array.isArray(obj))
-  {
-  //console.log(obj.length);
-  const length = (obj) ? obj.length-1 : 0;
-  const point = GwStatusToInflux(obj[0]);
-  const macs = [];
-  for(let ii = 0; ii < obj.length; ii ++)
-   {
-     if(obj[ii].mac){
-     macs.push(obj[ii].mac);
-     }
-   }
-  const result = [];
-  const map = new Map();
-  for (const item of macs) {
-      if(!map.has(item)){
-          map.set(item, true);    // set any value to Map
-          result.push({
-              item
-          });
-      }
-  }
-  //console.log(result.length);
-  if(point.fields){
-    point.fields.gatewayMsgs = length;
-    point.fields.gatewayUniq = result.length-1;
-  }
-  const gw_samples = [];
-  gw_samples.push(point);
-  gwDB.writePoints(gw_samples);
 
-  const tstamps = [];
-  const mac_samples = [];
-  for (const item of macs) {
-      if(!macTimestamps.has(item)){
-          macTimestamps.set(item, Date.now());    // set any value to Map
+const macTimestamps = new Map();
+mqttClient.on('message', function(topic, message) {
+  const obj = JSON.parse(message.toString());
+  if (Array.isArray(obj)) {
+    //console.log(obj.length);
+    const length = obj ? obj.length - 1 : 0;
+    const point = GwStatusToInflux(obj[0]);
+    const macs = [];
+    for (let ii = 0; ii < obj.length; ii++) {
+      if (obj[ii].mac) {
+        macs.push(obj[ii].mac);
+      }
+    }
+    const result = [];
+    const map = new Map();
+    for (const item of macs) {
+      if (!map.has(item)) {
+        map.set(item, true); // set any value to Map
+        result.push({
+          item,
+        });
+      }
+    }
+    //console.log(result.length);
+    if (point.fields) {
+      point.fields.gatewayMsgs = length;
+      point.fields.gatewayUniq = result.length - 1;
+    }
+    const gw_samples = [];
+    gw_samples.push(point);
+    gwDB.writePoints(gw_samples);
+
+    const tstamps = [];
+    const mac_samples = [];
+    for (const item of macs) {
+      if (!macTimestamps.has(item)) {
+        macTimestamps.set(item, Date.now()); // set any value to Map
       } else {
         let delta = Date.now() - macTimestamps.get(item);
-        tstamps.push({'mac': item, 'latency': delta});
+        tstamps.push({ mac: item, latency: delta });
         macTimestamps.set(item, Date.now());
       }
-  }
-  for(let ii = 0; ii < tstamps.length; ii++)
-  {
-    let macPoint = MacStatusToInflux(tstamps[ii]);
-    if(macPoint.tags){
-    macPoint.tags.gatewayID = obj[0].mac;
-    mac_samples.push(macPoint);
     }
-  }
-  //console.log(mac_samples);
-  macDB.writePoints(mac_samples);
-
+    for (let ii = 0; ii < tstamps.length; ii++) {
+      let macPoint = MacStatusToInflux(tstamps[ii]);
+      if (macPoint.tags) {
+        macPoint.tags.gatewayID = obj[0].mac;
+        mac_samples.push(macPoint);
+      }
+    }
+    //console.log(mac_samples);
+    macDB.writePoints(mac_samples);
   }
 });
-
 
 process.on('unhandledRejection', error => {
   console.error(`${error} thrown`);

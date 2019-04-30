@@ -23,24 +23,23 @@ export const MacStatOptions: ISingleHostConfig = {
     {
       fields: {
         latency: FieldType.INTEGER,
-        mac:  FieldType.INTEGER,
+        mac: FieldType.INTEGER,
       },
       measurement: measurementName,
-      tags: ['mac', 'gatewayID']
+      tags: ['mac', 'gatewayID'],
     },
   ],
   username: login.username,
 };
 
 export function MacStatusToInflux(macstats: any): IPoint {
-
   const data: IPoint = {
     fields: {
-        latency: macstats.latency,
-        mac:  parseInt(macstats.mac, 16),
+      latency: macstats.latency,
+      mac: parseInt(macstats.mac, 16),
     },
     measurement: measurementName,
-    tags: {'mac': macstats.mac},
+    tags: { mac: macstats.mac },
   };
 
   return data;

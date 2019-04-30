@@ -1,6 +1,6 @@
 {
   "name": "ojousima.mqqt2influx.ts",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Store data from RuuviTags to InfluxDB via MQTT broker.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

@@ -24,27 +24,26 @@ export const GWStatOptions: ISingleHostConfig = {
       fields: {
         gatewayFree: FieldType.INTEGER,
         gatewayLoad: FieldType.FLOAT,
-        gatewayMac:  FieldType.INTEGER,
+        gatewayMac: FieldType.INTEGER,
         gatewayMsgs: FieldType.INTEGER,
         gatewayUniq: FieldType.INTEGER,
       },
       measurement: measurementName,
-      tags: ['gatewayID']
+      tags: ['gatewayID'],
     },
   ],
   username: login.username,
 };
 
 export function GwStatusToInflux(gwstats: any): IPoint {
-
   const data: IPoint = {
     fields: {
-        gatewayFree: gwstats.gatewayFree,
-        gatewayLoad: gwstats.gatewayLoad,
-        gatewayMac:  parseInt(gwstats.mac, 16),
+      gatewayFree: gwstats.gatewayFree,
+      gatewayLoad: gwstats.gatewayLoad,
+      gatewayMac: parseInt(gwstats.mac, 16),
     },
     measurement: measurementName,
-    tags: {'gatewayID': gwstats.mac},
+    tags: { gatewayID: gwstats.mac },
   };
 
   return data;
