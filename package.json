@@ -34,11 +34,17 @@
   ],
   "devDependencies": {
     "@types/jest": "^24.0.12",
+    "@types/node": "^11.13.8",
     "jest": "^24.7.1",
     "prettier": "^1.17.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "influx": "^5.0.7",
+    "mqtt": "^2.18.8",
+    "ojousima.ruuvi_endpoints.ts": "^3.7.3"
   }
 }
