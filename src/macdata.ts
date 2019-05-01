@@ -39,7 +39,7 @@ export function MacStatusToInflux(macstats: any): IPoint {
       mac: parseInt(macstats.mac, 16),
     },
     measurement: measurementName,
-    tags: { mac: macstats.mac },
+    tags: { tagID: macstats.mac },
   };
 
   return data;
