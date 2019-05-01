@@ -147,9 +147,11 @@ mqttClient.on('message', function(topic, message) {
     const length = obj ? obj.length - 1 : 0;
     const point = GwStatusToInflux(obj[0]);
     const macs = [];
-    for (let ii = 0; ii < obj.length; ii++) {
-      if (obj[ii].mac) {
+    const rssis = new Map();
+    for (let ii = 1; ii < obj.length; ii++) {
+      if (obj[ii].mac && obj[ii].rssi) {
         macs.push(obj[ii].mac);
+        rssis.set(obj[ii].mac, obj[ii].rssi);
       }
     }
     const result = [];
@@ -178,7 +180,7 @@ mqttClient.on('message', function(topic, message) {
         macTimestamps.set(item, Date.now()); // set any value to Map
       } else {
         let delta = Date.now() - macTimestamps.get(item);
-        tstamps.push({ mac: item, latency: delta });
+        tstamps.push({ mac: item, latency: delta, rssi: rssis.get(item) });
         macTimestamps.set(item, Date.now());
       }
     }

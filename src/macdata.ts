@@ -2,7 +2,7 @@ import { FieldType, IPoint, ISingleHostConfig } from 'influx';
 import { InfluxLogin } from '../config';
 
 const login = new InfluxLogin();
-const measurementName = 'ruuvi_macstats';
+const measurementName = 'ruuvi_macstats_2';
 
 /*
 [ {
@@ -23,10 +23,11 @@ export const MacStatOptions: ISingleHostConfig = {
     {
       fields: {
         latency: FieldType.INTEGER,
+        rssi: FieldType.INTEGER,
         mac: FieldType.INTEGER,
       },
       measurement: measurementName,
-      tags: ['mac', 'gatewayID'],
+      tags: ['tagID', 'gatewayID'],
     },
   ],
   username: login.username,
@@ -36,6 +37,7 @@ export function MacStatusToInflux(macstats: any): IPoint {
   const data: IPoint = {
     fields: {
       latency: macstats.latency,
+      rssi: macstats.rssi,
       mac: parseInt(macstats.mac, 16),
     },
     measurement: measurementName,
