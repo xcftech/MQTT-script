@@ -1,4 +1,7 @@
 {
+  "mapCoverage": true,
+  "moduleFileExtensions": ["js", "ts"],
+  "testResultsProcessor": "jest-sonar-reporter",
   "transform": {
     "^.+\\.(t|j)sx?$": "ts-jest"
   },
