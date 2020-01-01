@@ -1,0 +1,40 @@
+{
+  "author": "",
+  "description": "Store data from RuuviTags to InfluxDB via MQTT broker.",
+  "keywords": [],
+  "name": "ojousima.mqqt2influx.ts",
+  "version": "0.1.0",
+  "main": "index.js",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "postversion": "git push && git push --tags",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "test": "jest --config jestconfig.json",
+    "version": "npm run format && git add -A src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ojousima/ojousima.mqqt2influx.ts.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ojousima/ojousima.mqqt2influx.ts/issues"
+  },
+  "homepage": "https://github.com/ojousima/ojousima.mqqt2influx.ts#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.25",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.2.0",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.7.4"
+  }
+}
