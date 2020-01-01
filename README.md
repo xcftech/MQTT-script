@@ -1,5 +1,6 @@
 # ojousima.mqqt2influx.ts
-Store data from RuuviTags to InfluxDB via MQTT broker.
+Store data from Ruuvi devices to InfluxDB via MQTT broker.
+Just a trial project, don't use this for anything.
 
 # License
 see LICENSE

@@ -1,0 +1,20 @@
+language: node_js
+
+node_js:
+  - "10"
+
+addons:
+  sonarcloud:
+    organization: "ojousima"
+    token:
+      secure: $SONAR_TOKEN
+      
+install:
+  - npm install
+
+script:
+  - npm run test && npm run tslint && sonar-scanner
+
+cache:
+  directories:
+    - '$HOME/.sonar/cache'
