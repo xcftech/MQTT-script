@@ -29,20 +29,18 @@
   },
   "homepage": "https://github.com/ojousima/ojousima.mqqt2influx.ts#readme",
   "devDependencies": {
-    "@types/jest": "^24.0.25",
+    "@types/jest": "^28.1.5",
+    "@types/ws": "^8.5.3",
     "jest": "^28.1.3",
     "jest-sonar-reporter": "^2.0.0",
-    "prettier": "^1.19.1",
-    "ts-jest": "^28.0.5",
+    "prettier": "^2.7.1",
+    "ts-jest": "^28.0.6",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.4"
+    "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@types/amqplib": "^0.5.13",
-    "@types/bluebird": "^3.5.29",
-    "amqp-ts": "^1.8.0",
-    "amqplib": "^0.10.0",
+    "@types/bluebird": "^3.5.36",
     "mqtt": "^4.3.7"
   }
 }
