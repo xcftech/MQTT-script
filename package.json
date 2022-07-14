@@ -41,6 +41,8 @@
   },
   "dependencies": {
     "@types/bluebird": "^3.5.36",
-    "mqtt": "^4.3.7"
+    "influx": "^5.9.3",
+    "mqtt": "^4.3.7",
+    "ojousima.ruuvi_endpoints.ts": "^3.8.1"
   }
 }
