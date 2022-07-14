@@ -37,5 +37,12 @@
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "@types/amqplib": "^0.5.13",
+    "@types/bluebird": "^3.5.29",
+    "amqp-ts": "^1.8.0",
+    "amqplib": "^0.5.5",
+    "mqtt": "^3.0.0"
   }
 }
