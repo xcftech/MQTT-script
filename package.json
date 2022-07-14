@@ -14,9 +14,8 @@
     "lint": "tslint -p tsconfig.json  -t json -o tslint-report.json --project . --force",
     "postversion": "git push && git push --tags",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
+    "prepublishOnly": "npm run lint",
     "preversion": "npm run lint",
-    "test": "jest --coverage --config jestconfig.json",
     "version": "npm run format && git add -A src"
   },
   "repository": {
