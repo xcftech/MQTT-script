@@ -65,6 +65,7 @@ typings/
 # Configuration
 config.ts
 .env.ts
+.env.js
 
 # built files
 lib/

@@ -1,1 +1,11 @@
 export const BROKER = 'live.ojousima.net';
+export const ACCELERATION_DB = 'acceleration';
+export const ACCELERATION_MEASUREMENT = 'acceleration_measurement';
+export const FFT_DB = 'fft';
+export const FFT_MEASUREMENT = 'fft_measurement';
+export const RAW_DB = 'raw';
+export const RAW_MEASUREMENT = 'raw_measurement';
+export const INFLUX_HOST = 'live.ojousima.net';
+export const INFLUX_USER = 'otso';
+export const INFLUX_PORT = '8086';
+export const INFLUX_PASSWORD = '8tnozZnr76v6XNqT';

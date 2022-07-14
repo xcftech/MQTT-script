@@ -1,4 +1,3 @@
-import { mqttInit} from './mqtt'
+import { mqttInit } from './mqtt';
 
 mqttInit();
-
