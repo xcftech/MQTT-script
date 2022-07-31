@@ -1,7 +1,5 @@
-# ojousima.mqqt2influx.ts
-Store data from Ruuvi devices to InfluxDB via MQTT broker.
-Just a trial project, don't use this for anything.
-And yeah, I'm aware that project name should be ojousima.mqtt2influx.ts :)
+# ojousima.mqtt2influx.ts
+Store data from Ruuvi devices to InfluxDB via MQTT broker. This is a demo project for a fast proof of concept, no support is given. 
 
 # License
 see LICENSE
