@@ -28,12 +28,12 @@
   },
   "homepage": "https://github.com/ojousima/ojousima.mqqt2influx.ts#readme",
   "devDependencies": {
-    "@types/jest": "^28.1.5",
+    "@types/jest": "^28.1.7",
     "@types/ws": "^8.5.3",
     "jest": "^28.1.3",
     "jest-sonar-reporter": "^2.0.0",
     "prettier": "^2.7.1",
-    "ts-jest": "^28.0.6",
+    "ts-jest": "^28.0.8",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.7.4"
@@ -42,6 +42,6 @@
     "@types/bluebird": "^3.5.36",
     "influx": "^5.9.3",
     "mqtt": "^4.3.7",
-    "ojousima.ruuvi_endpoints.ts": "^3.8.1"
+    "ojousima.ruuvi_endpoints.ts": "^3.11.9"
   }
 }
