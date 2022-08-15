@@ -239,7 +239,7 @@ const accelerationToInflux = function (data: AccelerationBroadcast, meta: RuuviD
   };
   influx_samples.push(influx_point);
   try {
-    raw_influx.writePoints(influx_samples);
+    acceleration_influx.writePoints(influx_samples);
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.error(`Error saving data to InfluxDB! ${err.stack}`);
