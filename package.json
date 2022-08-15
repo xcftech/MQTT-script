@@ -42,6 +42,6 @@
     "@types/bluebird": "^3.5.36",
     "influx": "^5.9.3",
     "mqtt": "^4.3.7",
-    "ojousima.ruuvi_endpoints.ts": "^3.11.9"
+    "ojousima.ruuvi_endpoints.ts": "^4.0.0"
   }
 }

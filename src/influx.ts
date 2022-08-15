@@ -227,6 +227,7 @@ const accelerationToInflux = function (data: AccelerationBroadcast, meta: RuuviD
       rmsY: data.rmsYG,
       rmsZ: data.rmsZG,
       batteryVoltage: data.batteryVoltageV,
+      temperature: data.temperatureC,
       measurementSequenceNumber: data.measurementSequence,
     },
     tags: {
