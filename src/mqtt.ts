@@ -1,9 +1,12 @@
 import * as mqtt from 'mqtt';
-import { BROKER } from '../.env';
+import { BROKER, MQTT_USER, MQTT_PASS } from '../.env';
 import { RuuviData } from './ruuvidata';
 import { rDataToInflux } from './influx';
 
-const opts: mqtt.IClientOptions = {};
+const opts: mqtt.IClientOptions = {
+  username: MQTT_USER,
+  password: MQTT_PASS ?? "",
+};
 
 const client: mqtt.Client = mqtt.connect(`mqtt://${BROKER}`, opts);
 
