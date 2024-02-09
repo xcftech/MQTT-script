@@ -2,6 +2,7 @@
  * InfluxDB v1, needs to be written again for InfluxDB v2
  */
 const Influx = require('influx');
+import { InfluxDBClient, Point } from '@influxdata/influxdb3-client';
 import {
   AccelerationBroadcast,
   FFTBroadcast,
@@ -11,7 +12,7 @@ import {
   dfafparser,
 } from 'ojousima.ruuvi_endpoints.ts';
 import { RuuviData } from './ruuvidata';
-
+import { INFLUXDB_TOKEN } from '../.env';
 import {
   BROKER,
   ACCELERATION_DB,
@@ -116,7 +117,7 @@ const fft_influx = new Influx.InfluxDB({
   password: INFLUX_PASSWORD,
 });
 
-const hexStringToByte = function (str: string): Uint8Array {
+const hexStringToByte = function(str: string): Uint8Array {
   if (!str) {
     return new Uint8Array();
   }
@@ -129,7 +130,7 @@ const hexStringToByte = function (str: string): Uint8Array {
   return new Uint8Array(a);
 };
 
-const macStringToNum = function (str: string): number {
+const macStringToNum = function(str: string): number {
   if (!str) {
     return 0;
   }
@@ -138,7 +139,7 @@ const macStringToNum = function (str: string): number {
   return parseInt(replaced, 16);
 };
 
-const fftToInflux = function (data: FFTBroadcast, meta: RuuviData): void {
+const fftToInflux = function(data: FFTBroadcast, meta: RuuviData): void {
   // console.log(JSON.stringify(data));
   const influx_samples = [];
   const influx_point = {
@@ -180,7 +181,7 @@ const fftToInflux = function (data: FFTBroadcast, meta: RuuviData): void {
   }
 };
 
-const rawToInflux = function (data: RuuviTagBroadcast, meta: RuuviData): void {
+const rawToInflux = function(data: RuuviTagBroadcast, meta: RuuviData): void {
   // console.log(JSON.stringify(data));
   const influx_samples = [];
   const influx_point = {
@@ -215,7 +216,7 @@ const rawToInflux = function (data: RuuviTagBroadcast, meta: RuuviData): void {
   }
 };
 
-const accelerationToInflux = function (data: AccelerationBroadcast, meta: RuuviData): void {
+const accelerationToInflux = function(data: AccelerationBroadcast, meta: RuuviData): void {
   const influx_samples = [];
   const influx_point = {
     fields: {
@@ -248,7 +249,39 @@ const accelerationToInflux = function (data: AccelerationBroadcast, meta: RuuviD
   }
 };
 
-export const rDataToInflux = function (data: RuuviData) {
+const feedDataToInfluxV3 = (parsedData: RuuviTagBroadcast, meta:RuuviData) => {
+
+  // @ts-ignore
+  const point = Point.measurement('raw_measurement').setFields(
+    {
+      rssi: parsedData.rssiDB ?? 0,
+      temperature: parsedData.temperatureC ?? 0,
+      humidity: parsedData.humidityRh ?? 0,
+      pressure: parsedData.pressurePa ?? 0,
+      accelerationX: parsedData.accelerationXG ?? 0,
+      accelerationY: parsedData.accelerationYG ?? 0,
+      accelerationZ: parsedData.accelerationZG ?? 0,
+      batteryVoltage: parsedData.batteryVoltageV ?? 0,
+      txPower: parsedData.txPowerDBm ?? 0,
+      movementCounter: parsedData.movementCounter ?? 0,
+      measurementSequenceNumber: parsedData.measurementSequence ?? 0,
+    },
+  ).setTag('mac', meta.deviceId)
+  .setTag('gateway_id', meta.deviceId)
+  .setTag('dataFormat', parsedData.dataFormat + "")
+    .setTimestamp(Influx.toNanoDate((meta.timestamp * 1000000).toString()));
+
+  try {
+    const client = new InfluxDBClient({ host: 'https://us-east-1-1.aws.cloud2.influxdata.com', token: INFLUXDB_TOKEN });
+    const database = `Ruuvi`;
+    client.write(point, database);
+  } catch (e) {
+    console.log(e);
+  }
+
+};
+
+export const rDataToInflux = function(data: RuuviData) {
   // Get raw data payload
   // console.log(data.rawData);
   const payload = hexStringToByte(data.rawData.slice(data.rawData.indexOf('FF9904') + 6));
@@ -263,14 +296,16 @@ export const rDataToInflux = function (data: RuuviData) {
 
   if (parsedData instanceof FFTBroadcast) {
     fftToInflux(parsedData, data);
-    // console.log(data.rawData.slice(data.rawData.indexOf('FF9904') + 6));
-    // console.log(JSON.stringify(parsedData));
+    console.log(data.rawData.slice(data.rawData.indexOf('FF9904') + 6));
+    console.log(JSON.stringify(parsedData));
   } else if (parsedData instanceof RuuviTagBroadcast) {
     rawToInflux(parsedData, data);
-    // console.log("Got RAW");
+    feedDataToInfluxV3(parsedData, data);
+    console.log('Got RAW');
+    console.log(parsedData);
   } else if (parsedData instanceof AccelerationBroadcast) {
     accelerationToInflux(parsedData, data);
-    // console.log("Got Acceleration");
+    console.log('Got Acceleration');
   } else {
     //console.log("Unknown data");
   }

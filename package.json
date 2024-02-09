@@ -39,6 +39,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "@influxdata/influxdb3-client": "^0.6.0",
     "@types/bluebird": "^3.5.36",
     "influx": "^5.9.3",
     "mqtt": "^4.3.7",
