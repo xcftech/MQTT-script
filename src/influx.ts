@@ -276,7 +276,7 @@ const feedDataToInfluxV3 = (parsedData: RuuviTagBroadcast, meta:RuuviData) => {
     const database = `Ruuvi`;
     client.write(point, database);
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 
 };
@@ -292,20 +292,14 @@ export const rDataToInflux = function(data: RuuviData) {
   // Fill in metadata
   parsedData.rssiDB = data.rssi;
   parsedData.mac = macStringToNum(data.deviceId);
-  //console.log("Got Data");
 
   if (parsedData instanceof FFTBroadcast) {
     fftToInflux(parsedData, data);
-    console.log(data.rawData.slice(data.rawData.indexOf('FF9904') + 6));
-    console.log(JSON.stringify(parsedData));
   } else if (parsedData instanceof RuuviTagBroadcast) {
     rawToInflux(parsedData, data);
-    feedDataToInfluxV3(parsedData, data);
-    console.log('Got RAW');
-    console.log(parsedData);
+    // feedDataToInfluxV3(parsedData, data);
   } else if (parsedData instanceof AccelerationBroadcast) {
     accelerationToInflux(parsedData, data);
-    console.log('Got Acceleration');
   } else {
     //console.log("Unknown data");
   }
