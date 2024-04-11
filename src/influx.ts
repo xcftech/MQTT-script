@@ -189,7 +189,7 @@ const rawToInflux = function(data: RuuviTagBroadcast, meta: RuuviData): void {
       rssi: data.rssiDB,
       temperature: data.temperatureC,
       humidity: data.humidityRh,
-      pressure: data.pressurePa,
+      pressure: null,
       accelerationX: data.accelerationXG,
       accelerationY: data.accelerationYG,
       accelerationZ: data.accelerationZG,
@@ -208,6 +208,7 @@ const rawToInflux = function(data: RuuviTagBroadcast, meta: RuuviData): void {
   };
   influx_samples.push(influx_point);
   try {
+    console.log(influx_samples);
     raw_influx.writePoints(influx_samples);
   } catch (err: unknown) {
     if (err instanceof Error) {
