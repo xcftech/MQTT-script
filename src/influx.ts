@@ -208,7 +208,7 @@ const rawToInflux = function(data: RuuviTagBroadcast, meta: RuuviData): void {
   };
   influx_samples.push(influx_point);
   try {
-    console.log(influx_samples);
+    // console.log(influx_samples);
     raw_influx.writePoints(influx_samples);
   } catch (err: unknown) {
     if (err instanceof Error) {
