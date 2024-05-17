@@ -1,8 +1,20 @@
 # ojousima.mqtt2influx.ts
-Store data from Ruuvi devices to InfluxDB via MQTT broker. This is a demo project for a fast proof of concept, no support is given. 
+Store data from Ruuvi devices to InfluxDB via MQTT broker. Please update .env.ts file with your MQTT broker details.
 
-# License
-see LICENSE
 
-# Thanks 
-* Carl Johan for excellent [blog post](https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c) on setting up TS packages
+
+
+## Quick Start/Installation
+
+To start the application, clone the repository and run the following commands to install dependencies, build
+assets, create the development environment, seed the database and run bellow commands:
+
+* cp .env.ts.example .env.ts
+* update MQTT credentials in .env file
+* npm install
+* npm run build
+* node lib/src/index.js
+```
+
+# Patient Repo 
+* https://github.com/ojousima/ojousima.mqtt2influx.ts
